@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Калькулятор аркатов</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+:root{
+  --bg:#0e1117;
+  --card:#171a21;
+  --accent:#00e676;
+  --text:#e8e8e8;
+  --muted:#a9b0bb;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:radial-gradient(circle at top,#1a2230,var(--bg));
+  font-family:Inter,system-ui,Arial,sans-serif;
+  color:var(--text);
+}
+
+.container{
+  width:min(900px,92vw);
+  height:min(92vh,900px);
+  background:linear-gradient(145deg,#171a21,#12161f);
+  border-radius:16px;
+  padding:22px;
+  display:flex;
+  flex-direction:column;
+  box-shadow:0 15px 50px rgba(0,0,0,0.6);
+}
+
+h2{
+  text-align:center;
+  font-size:clamp(24px,2.2vw,36px);
+  margin:0 0 10px;
+  font-weight:700;
+}
+
+.hint{
+  background:rgba(255,255,255,0.05);
+  padding:12px 14px;
+  border-radius:10px;
+  margin-bottom:12px;
+  color:var(--muted);
+  font-size:clamp(13px,1vw,16px);
+  line-height:1.4;
+}
+
+.top label{
+  display:block;
+  margin-bottom:6px;
+  color:var(--muted);
+}
+
+select{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  background:#0e121a;
+  color:var(--text);
+}
+
+.inventory-wrap{
+  flex:1;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  padding-top:12px;
+}
+
+.inventory{
+  width:100%;
+  max-width:750px;
+  display:grid;
+  grid-template-columns:1fr 80px;
+  gap:8px 12px;
+}
+
+.inventory input{
+  width:75px;
+  padding:6px;
+  border-radius:8px;
+  border:none;
+  text-align:center;
+  background:#0e121a;
+  color:white;
+}
+
+button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  background:var(--accent);
+  font-weight:700;
+  cursor:pointer;
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.7);
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+
+.modal-content{
+  background:#171a21;
+  padding:22px;
+  border-radius:14px;
+  width:min(500px,90vw);
+  text-align:center;
+}
+
+.result-line img{
+  width:22px;
+  vertical-align:middle;
+  margin:0 6px;
+}
+
+.close{
+  margin-top:15px;
+  padding:10px;
+  background:#333;
+  border:none;
+  color:white;
+  border-radius:10px;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h2>Калькулятор аркатов</h2>
+
+  <div class="hint">
+    1. Выберите целевой аркат<br>
+    2. Укажите количество имеющихся аркатов<br>
+    3. Нажмите «Посчитать»
+  </div>
+
+  <div class="top">
+    <label>Цель</label>
+    <select id="target"></select>
+  </div>
+
+  <div class="inventory-wrap">
+    <div class="inventory" id="inventory"></div>
+  </div>
+
+  <button onclick="calculate()">Посчитать</button>
+
+</div>
+
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h3>Результат</h3>
+    <div id="modalText"></div>
+    <button class="close" onclick="closeModal()">Закрыть</button>
+  </div>
+</div>
+
+<script>
+const arkats = [
+  "Слабый триарк 11","Слабый тетрарк 11","Слабый пентарк 13","Слабый эксарк 13",
+  "Триарк 15","Тетрарк 15","Пентарк 16","Эксарк 16",
+  "Сильный триарк 17","Сильный тетрарк 17","Сильный пентарк 18","Сильный эксарк 18",
+  "Великий триарк 19","Великий тетрарк 19","Великий пентарк 20","Великий эксарк 20"
+];
+
+const needMap = arkats.map((_, i) => (i >= 13 ? 2 : 3));
+
+const select = document.getElementById("target");
+const invDiv = document.getElementById("inventory");
+
+arkats.forEach((a,i)=>{
+  select.innerHTML += `<option value="${i}">${a}</option>`;
+});
+
+function updateInventory(){
+  const target = +select.value;
+  invDiv.innerHTML = "";
+
+  for(let i=0;i<target;i++){
+    invDiv.innerHTML += `
+      <label>${arkats[i]}</label>
+      <input type="number" id="inv_${i}" value="0">
+    `;
+  }
+}
+
+select.addEventListener("change", updateInventory);
+
+function calculate(){
+  const target = +select.value;
+
+  let need = Array(arkats.length).fill(0);
+  need[target] = 1;
+
+  let inv = arkats.map((_,i)=>{
+    const el = document.getElementById("inv_"+i);
+    return el ? +el.value || 0 : 0;
+  });
+
+  for(let i=target;i>0;i--){
+    let req = need[i];
+    let used = Math.min(req, inv[i]);
+    req -= used;
+
+    if(req>0){
+      need[i-1] += req * needMap[i];
+    }
+  }
+
+  let base = Math.max(0, need[0] - inv[0]);
+
+  document.getElementById("modalText").innerHTML = `
+    Для получения <b>${arkats[target]}</b><br><br>
+    вам необходимо:<br><br>
+    <div class="result-line">
+      <img src="https://w1.dwar.ru/images/data/artifacts/ark_orange_1_1.gif">
+      Слабый триарк — <b>${base}</b> шт.
+    </div>
+  `;
+
+  document.getElementById("modal").style.display = "flex";
+}
+
+function closeModal(){
+  document.getElementById("modal").style.display = "none";
+}
+
+updateInventory();
+</script>
+
+</body>
+</html>
