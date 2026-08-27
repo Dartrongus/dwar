@@ -1,0 +1,74 @@
+
+
+<!-- вставить перед </body> -->
+ <div id="site-menu-button">
+    <a href="https://dartrongus.github.io/dwar/menu"
+       aria-label="Меню"
+       title="Меню">
+        <span class="site-menu-icon">☰</span>
+        <span class="site-menu-text">Меню</span>
+    </a>
+</div>
+
+<style>
+#site-menu-button {
+    position: fixed;
+    left: 18px;
+    bottom: 18px;
+    z-index: 2147483647;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+#site-menu-button a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 42px;
+    padding: 0 14px;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 11px;
+    background: rgba(14,17,23,0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #dfe3e8;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 6px 22px rgba(0,0,0,0.35);
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+#site-menu-button a:hover {
+    background: rgba(25,30,39,0.95);
+    border-color: rgba(255,255,255,0.22);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+#site-menu-button .site-menu-icon {
+    font-size: 17px;
+    line-height: 1;
+}
+
+#site-menu-button .site-menu-text {
+    line-height: 1;
+}
+
+@media (max-width: 600px) {
+    #site-menu-button {
+        left: 12px;
+        bottom: 12px;
+    }
+
+    #site-menu-button a {
+        height: 40px;
+        padding: 0 12px;
+    }
+}
+</style>
