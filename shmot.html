@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Просмотр шмоток персонажа</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root{
+    --bg:#0e1117;
+    --card:#171a21;
+    --card2:#1d222c;
+    --border:#2b313c;
+    --accent:#00e676;
+    --text:#e8e8e8;
+    --muted:#9da5b1;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    background:
+        radial-gradient(circle at top,#1a2230 0,#0e1117 45%);
+    color:var(--text);
+    font-family:Inter,Arial,sans-serif;
+    line-height:1.6;
+}
+
+.container{
+    width:min(1000px,94vw);
+    margin:40px auto;
+    background:linear-gradient(145deg,#171a21,#12161f);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:30px;
+    box-shadow:0 20px 60px rgba(0,0,0,.45);
+}
+
+h1{
+    margin:0 0 25px;
+    text-align:center;
+    font-size:clamp(24px,3vw,36px);
+}
+
+h2{
+    margin-top:45px;
+    padding-top:15px;
+    border-top:1px solid var(--border);
+    font-size:24px;
+}
+
+h3{
+    margin-top:30px;
+    font-size:19px;
+}
+
+p{
+    color:var(--muted);
+}
+
+ol{
+    padding-left:25px;
+}
+
+li{
+    margin:10px 0;
+}
+
+strong{
+    color:#fff;
+}
+
+.toc{
+    background:#10141c;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:18px 22px;
+    margin-bottom:30px;
+}
+
+.toc-title{
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.toc a{
+    display:block;
+    color:var(--text);
+    text-decoration:none;
+    padding:6px 0;
+}
+
+.toc a:hover{
+    color:var(--accent);
+}
+
+.code-box{
+    margin:15px 0 25px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    overflow:hidden;
+    background:#0a0d12;
+}
+
+.code-header{
+    min-height:46px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:7px 10px 7px 14px;
+    background:#151a22;
+    border-bottom:1px solid var(--border);
+}
+
+.code-title{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.copy-btn{
+    border:0;
+    border-radius:8px;
+    background:#252c37;
+    color:#fff;
+    padding:7px 13px;
+    font-family:inherit;
+    font-size:13px;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:.15s;
+}
+
+.copy-btn:hover{
+    background:#303946;
+}
+
+.copy-btn.success{
+    background:#00a85a;
+}
+
+.code-area{
+    display:block;
+    width:100%;
+    height:58px;
+    min-height:58px;
+    max-height:58px;
+    resize:none;
+    overflow-x:auto;
+    overflow-y:hidden;
+    white-space:pre;
+    word-wrap:normal;
+    padding:12px 14px;
+    border:0;
+    outline:0;
+    background:#090c11;
+    color:#d8dee9;
+    font-family:Consolas,"Courier New",monospace;
+    font-size:13px;
+    line-height:1.4;
+    tab-size:4;
+}
+
+.code-area::-webkit-scrollbar{
+    height:9px;
+}
+
+.code-area::-webkit-scrollbar-track{
+    background:#0d1117;
+}
+
+.code-area::-webkit-scrollbar-thumb{
+    background:#343c49;
+    border-radius:10px;
+}
+
+.note{
+    padding:13px 16px;
+    margin:15px 0;
+    background:rgba(255,255,255,.04);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    color:var(--muted);
+}
+
+.image-placeholder{
+    margin:18px 0;
+    min-height:180px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border:1px dashed #3b4350;
+    border-radius:12px;
+    background:#10141b;
+    color:#697381;
+    text-align:center;
+    padding:20px;
+}
+
+.image-placeholder img{
+    max-width:100%;
+    height:auto;
+    border-radius:8px;
+}
+
+.back-top{
+    display:inline-block;
+    margin-top:15px;
+    color:var(--muted);
+    text-decoration:none;
+    font-size:13px;
+}
+
+.back-top:hover{
+    color:var(--accent);
+}
+
+@media(max-width:700px){
+    .container{
+        width:96vw;
+        margin:15px auto;
+        padding:18px;
+        border-radius:12px;
+    }
+
+    h2{
+        font-size:21px;
+    }
+
+    .code-header{
+        align-items:flex-start;
+    }
+
+    .code-area{
+        font-size:11px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="top">
+
+<h1>Просмотр шмоток под вещами стиля<br>ТОЛЬКО У ОТКРЫТЫХ ПЕРСОНАЖЕЙ!</h1>
+
+<div class="toc">
+    <div class="toc-title">Оглавление</div>
+    <a href="#method1">1. Первый способ — Браузер</a>
+    <a href="#method2">2. Второй способ — в Dwarium</a>
+    <a href="#old">OLD</a>
+</div>
+
+
+<!-- ========================================================= -->
+<!-- ПЕРВЫЙ СПОСОБ -->
+<!-- ========================================================= -->
+
+<section id="method1">
+
+<h2>Первый способ (Браузер)</h2>
+
+<h3>1. Копируем код</h3>
+
+<div class="code-box">
+    <div class="code-header">
+        <span class="code-title">JavaScript Bookmarklet</span>
+        <button class="copy-btn" onclick="copyCode('code1',this)">Копировать</button>
+    </div>
+    <textarea id="code1" class="code-area" readonly spellcheck="false"></textarea>
+</div>
+
+<div class="note">
+    Кнопка «Копировать» находится над полем с кодом.
+</div>
+
+<!-- ВСТАВЬТЕ ЗДЕСЬ КАРТИНКУ:
+     Оригинальное название: image.png
+-->
+<div class="image-placeholder">
+    Место для изображения: image.png
+</div>
+
+
+<h3>2. Создаём новую закладку в браузере с кодом</h3>
+
+<p><strong>Как создать закладку?</strong></p>
+
+<p>
+Правой кнопкой мыши по панели закладок → «Добавить страницу».
+Название пунктов может отличаться в разных браузерах.
+Если не получается, загуглите, как создать закладку в вашем браузере.
+</p>
+
+<p>
+Если не нашли, попробуйте сочетание клавиш <strong>Ctrl + D</strong>.
+Это создаст закладку текущей страницы, после чего можно изменить её название
+и вставить код в поле URL.
+</p>
+
+<!-- ВСТАВЬТЕ ЗДЕСЬ КАРТИНКУ:
+     Оригинальное название: image+1.png
+-->
+<div class="image-placeholder">
+    Место для изображения: image+1.png
+</div>
+
+<p>
+Даём любое название, в поле URL вставляем код из первого пункта
+и нажимаем «Сохранить».
+</p>
+
+<!-- ВСТАВЬТЕ ЗДЕСЬ КАРТИНКУ:
+     Оригинальное название: image+2.png
+-->
+<div class="image-placeholder">
+    Место для изображения: image+2.png
+</div>
+
+
+<h3>3. Открываем персонажа в браузере ПОЛНОСТЬЮ</h3>
+
+<p>
+Если у персонажа стоит образ, жмём кнопку
+<strong>«Перейти к игровой информации»</strong>.
+</p>
+
+<!-- ВСТАВЬТЕ ЗДЕСЬ КАРТИНКУ:
+     Оригинальное название: image+3.png
+-->
+<div class="image-placeholder">
+    Место для изображения: image+3.png
+</div>
+
+<p><strong>Закрытых персонажей посмотреть нельзя!</strong></p>
+
+
+<h3>4. Жмём на созданную закладку</h3>
+
+<p>
+Вверху страницы появятся вещи персонажа.
+</p>
+
+<p>
+Можно навестись курсором, чтобы увидеть более подробную информацию
+о вещах или кликнуть для открытия в новой вкладке.
+</p>
+
+<!-- ВСТАВЬТЕ ЗДЕСЬ КАРТИНКУ:
+     Оригинальное название: image+4.png
+-->
+<div class="image-placeholder">
+    Место для изображения: image+4.png
+</div>
+
+<!-- ВСТАВЬТЕ ЗДЕСЬ КАРТИНКУ:
+     Оригинальное название: image+5.png
+-->
+<div class="image-placeholder">
+    Место для изображения: image+5.png
+</div>
+
+<a class="back-top" href="#top">↑ К оглавлению</a>
+
+</section>
+
+
+<!-- ========================================================= -->
+<!-- ВТОРОЙ СПОСОБ -->
+<!-- ========================================================= -->
+
+<section id="method2">
+
+<h2>Второй способ в Dwarium</h2>
+
+<h3>1. Копируем код</h3>
+
+<div class="code-box">
+    <div class="code-header">
+        <span class="code-title">JavaScript Bookmarklet</span>
+        <button class="copy-btn" onclick="copyCode('code2',this)">Копировать</button>
+    </div>
+    <textarea id="code2" class="code-area" readonly spellcheck="false"></textarea>
+</div>
+
+<div class="note">
+    Кнопка «Копировать» находится над полем с кодом.
+</div>
+
+<!-- ВСТАВЬТЕ ЗДЕСЬ КАРТИНКУ:
+     Оригинальное название: image 1.png
+-->
+<div class="image-placeholder">
+    Место для изображения: image 1.png
+</div>
+
+
+<h3>2. Открываем и создаём заметку</h3>
+
+<!-- ВСТАВЬТЕ ЗДЕСЬ КАРТИНКУ:
+     Оригинальное название: image 2.png
+-->
+<div class="image-placeholder">
+    Место для изображения: image 2.png
+</div>
+
+<p>
+Вставляем код в заметку.
+</p>
+
+<!-- ВСТАВЬТЕ ЗДЕСЬ КАРТИНКУ:
+     Оригинальное название: image 3.png
+-->
+<div class="image-placeholder">
+    Место для изображения: image 3.png
+</div>
+
+
+<h3>3. Открываем персонажа в браузере ПОЛНОСТЬЮ</h3>
+
+<p>
+Если у персонажа стоит образ, жмём кнопку
+<strong>«Перейти к игровой информации»</strong>.
+</p>
+
+<!-- ВСТАВЬТЕ ЗДЕСЬ КАРТИНКУ:
+     Оригинальное название: image 4.png
+-->
+<div class="image-placeholder">
+    Место для изображения: image 4.png
+</div>
+
+<p><strong>Закрытых персонажей посмотреть нельзя!</strong></p>
+
+
+<h3>4. Вставляем код из заметки в адресную строку и жмём Enter</h3>
+
+<!-- ВСТАВЬТЕ ЗДЕСЬ КАРТИНКУ:
+     Оригинальное название: image 5.png
+-->
+<div class="image-placeholder">
+    Место для изображения: image 5.png
+</div>
+
+<!-- ВСТАВЬТЕ ЗДЕСЬ КАРТИНКУ:
+     Оригинальное название: image 6.png
+-->
+<div class="image-placeholder">
+    Место для изображения: image 6.png
+</div>
+
+<a class="back-top" href="#top">↑ К оглавлению</a>
+
+</section>
+
+
+<!-- ========================================================= -->
+<!-- OLD -->
+<!-- ========================================================= -->
+
+<section id="old">
+
+<h2>OLD</h2>
+
+<div class="code-box">
+    <div class="code-header">
+        <span class="code-title">Старая версия</span>
+        <button class="copy-btn" onclick="copyCode('codeOld',this)">Копировать</button>
+    </div>
+    <textarea id="codeOld" class="code-area" readonly spellcheck="false"></textarea>
+</div>
+
+<a class="back-top" href="#top">↑ К оглавлению</a>
+
+</section>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- КОДЫ ХРАНЯТСЯ ЗДЕСЬ КАК ТЕКСТ -->
+<!-- ========================================================= -->
+
+<script type="text/plain" id="bookmarklet-code">javascript:(async function(){'use strict';const CONTAINER_ID='dwar-artifacts-list-bookmarklet',TOOLTIP_CLASS='dwar-artifact-tooltip-bookmarklet',CARD_CLASS='dwar-artifact-card-bookmarklet',server=location.hostname.split('.')[0],baseUrl=`https://${server}.dwar.ru`,tooltipCache=new Map();let activeTooltip=null,hoverRequestId=0;document.getElementById(CONTAINER_ID)?.remove();document.querySelectorAll(`.${TOOLTIP_CLASS}`).forEach(element=>element.remove());function hideAllTooltips(){document.querySelectorAll(`.${TOOLTIP_CLASS}`).forEach(tooltip=>{tooltip.style.display='none'});activeTooltip=null;hoverRequestId++}async function loadTooltip(url){if(tooltipCache.has(url))return tooltipCache.get(url);try{const response=await fetch(url,{credentials:'same-origin'});if(!response.ok)throw new Error(`HTTP ${response.status}`);const html=await response.text(),parsedDocument=new DOMParser().parseFromString(html,'text/html'),tooltipContent=parsedDocument.querySelector('.bg-inner-b')?.innerHTML||'';return tooltipCache.set(url,tooltipContent),tooltipContent}catch(error){return console.warn('[Dwar Artifact Bookmarklet] Не удалось загрузить описание:',url,error),'<div style="padding:10px;">Не удалось загрузить описание предмета</div>'}}const artifacts=[];document.querySelectorAll('script:not([src])').forEach(script=>{const matches=script.textContent.match(/art_alt\["[^"]+"\]\s*=\s*({[\s\S]*?});/g);matches&&matches.forEach(match=>{try{const assignment=match.split('=').slice(1).join('=').trim().replace(/;$/,''),artifact=Function(`"use strict"; return (${assignment});`)();if(!artifact||typeof artifact!=='object')return;const level=parseInt(artifact.lev?.value??0,10)||0,kind=artifact.kind||'',isAccessory=kind==='Кольца'||kind==='Амулет';(artifact.dur_max||kind==='Знамена')&&artifacts.push({data:artifact,level,isAccessory})}catch(error){console.warn('[Dwar Artifact Bookmarklet] Ошибка разбора предмета:',error)}})});const uniqueArtifacts=[],seenArtifacts=new Set();for(const artifact of artifacts){const id=artifact.data?.id,uniqueKey=id?`id:${id}`:`title:${artifact.data?.title||''}`;seenArtifacts.has(uniqueKey)||(seenArtifacts.add(uniqueKey),uniqueArtifacts.push(artifact))}uniqueArtifacts.sort((a,b)=>a.isAccessory!==b.isAccessory?Number(a.isAccessory)-Number(b.isAccessory):b.level-a.level);const container=document.createElement('div');container.id=CONTAINER_ID;container.style.cssText='margin:20px;padding:15px;border:1px solid #ccc;display:flex;flex-wrap:wrap;gap:20px;border-radius:10px;box-sizing:border-box;background:transparent';if(uniqueArtifacts.length===0){container.innerHTML='<div style="width:100%;text-align:center;padding:20px;font-weight:bold;">Подходящие предметы не найдены</div>';document.body.prepend(container);return}uniqueArtifacts.forEach(({data,level})=>{if(!data)return;const artifactId=data.id;if(!artifactId)return void console.warn('[Dwar Artifact Bookmarklet] У предмета отсутствует ID:',data);const artifactUrl=`${baseUrl}/artifact_info.php?artifact_id=${artifactId}`,card=document.createElement('div');card.className=CARD_CLASS;card.style.cssText='width:260px;min-height:130px;display:flex;align-items:center;gap:10px;border:1px solid #e0e0e0;padding:10px;border-radius:8px;background:#ffe2a8;box-sizing:border-box;position:relative;transition:box-shadow .2s,transform .2s';card.addEventListener('mouseenter',()=>{card.style.boxShadow='0 4px 10px rgba(0,0,0,.25)';card.style.transform='translateY(-2px)'});card.addEventListener('mouseleave',()=>{card.style.boxShadow='none';card.style.transform='none'});const levelBadge=document.createElement('div');levelBadge.textContent=level;levelBadge.style.cssText='position:absolute;top:6px;right:6px;background:#7a4a00;color:#fff;font-size:12px;padding:2px 6px;border-radius:10px;font-weight:700;z-index:2';const copyButton=document.createElement('button');copyButton.type='button';copyButton.textContent='⧉';copyButton.title='Копировать ссылку';copyButton.style.cssText='position:absolute;top:6px;left:6px;background:#7a4a00;color:#fff;font-size:12px;padding:2px 6px;border-radius:10px;font-weight:700;cursor:pointer;border:none;z-index:3;line-height:16px';copyButton.addEventListener('click',async event=>{event.preventDefault();event.stopPropagation();try{await navigator.clipboard.writeText(artifactUrl)}catch(error){console.warn('[Dwar Artifact Bookmarklet] Clipboard API недоступен:',error);const textArea=document.createElement('textarea');textArea.value=artifactUrl;textArea.style.position='fixed';textArea.style.opacity='0';document.body.appendChild(textArea);textArea.focus();textArea.select();try{document.execCommand('copy')}finally{textArea.remove()}}const oldText=copyButton.textContent;copyButton.textContent='✓';setTimeout(()=>{copyButton.textContent=oldText},800)});const link=document.createElement('a');link.href=artifactUrl;link.target='_blank';link.rel='noopener noreferrer';link.style.cssText='color:black;text-decoration:none;display:flex;align-items:center;gap:10px;width:100%;min-height:110px';const image=document.createElement('img');data.picture&&(image.src=`${baseUrl}${String(data.picture).replace(/\\/g,'')}`);image.alt=data.title||'Предмет';image.style.cssText='width:80px;max-height:100px;object-fit:contain;flex-shrink:0';image.addEventListener('error',()=>{image.style.display='none'});const title=document.createElement('span');title.textContent=data.title||'Без названия';title.style.cssText='font-weight:600;line-height:1.2;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word';const tooltip=document.createElement('div');tooltip.className=TOOLTIP_CLASS;tooltip.style.cssText='position:fixed;padding:10px;box-shadow:0 2px 8px rgba(0,0,0,.35);display:none;z-index:2147483647;width:300px;max-width:calc(100vw - 20px);border-radius:4px;background:transparent;pointer-events:none;box-sizing:border-box';document.body.appendChild(tooltip);function updateTooltipPosition(event){let x=event.clientX+15,y=event.clientY+15;const tooltipWidth=320,tooltipHeight=250;x+tooltipWidth>window.innerWidth&&(x=event.clientX-tooltipWidth);y+tooltipHeight>window.innerHeight&&(y=window.innerHeight-tooltipHeight-10);x<10&&(x=10);y<10&&(y=10);tooltip.style.left=`${x}px`;tooltip.style.top=`${y}px`}link.addEventListener('mousemove',updateTooltipPosition);link.addEventListener('mouseenter',async event=>{hideAllTooltips();activeTooltip=tooltip;const currentRequestId=++hoverRequestId;updateTooltipPosition(event);const content=await loadTooltip(artifactUrl);currentRequestId!==hoverRequestId||activeTooltip!==tooltip||!link.matches(':hover')||(tooltip.innerHTML=content,tooltip.style.display='block')});link.addEventListener('mouseleave',()=>{activeTooltip===tooltip&&(tooltip.style.display='none',activeTooltip=null,hoverRequestId++)});link.append(image,title);card.append(levelBadge,copyButton,link);container.appendChild(card)});document.body.prepend(container)})();</script>
+
+
+<script type="text/plain" id="old-code">javascript:(function(){let t=null,c=new Map(),srv=location.hostname.split('.')[0];function h(){document.querySelectorAll('.artifact-tooltip').forEach(e=>e.style.display='none')}async function f(u){if(c.has(u))return c.get(u);try{let r=await fetch(u),x=await r.text(),d=new DOMParser().parseFromString(x,'text/html'),b=d.querySelector('.bg-inner-b')?.innerHTML||'';c.set(u,b);return b}catch{return''}}let a=[];document.querySelectorAll('script:not([src])').forEach(s=>{let m=s.textContent.match(/art_alt\["[^"]+"\]\s*=\s*({[\s\S]*?});/g);if(m)m.forEach(z=>{try{let o=Function('return '+z.split('=').slice(1).join('=').slice(0,-1))(),l=parseInt(o.lev?.value||0),k=o.kind||'';if(o.dur_max||k==='Знамена')a.push({d:o,l:l,p:(k==='Кольца'||k==='Амулет')})}catch{}})});a.sort((x,y)=>x.p!==y.p?x.p-y.p:y.l-x.l);let w=document.createElement('div');w.style.cssText='margin:20px;padding:15px;border:1px solid #ccc;display:flex;flex-wrap:wrap;gap:30px';a.forEach(({d,l})=>{let k=document.createElement('div');k.style.cssText='width:260px;height:130px;display:flex;align-items:center;gap:10px;border:1px solid #e0e0e0;padding:10px;border-radius:8px;background:#ffe2a8;box-sizing:border-box;position:relative;transition:box-shadow .2s';k.onmouseenter=()=>k.style.boxShadow='0 4px 10px rgba(0,0,0,.25)';k.onmouseleave=()=>k.style.boxShadow='none';let lvl=document.createElement('div');lvl.textContent=l;lvl.style.cssText='position:absolute;top:6px;right:6px;background:#7a4a00;color:#fff;font-size:12px;padding:2px 6px;border-radius:10px;font-weight:700';let copy=document.createElement('div');copy.textContent='⧉';copy.title='Копировать ссылку';copy.style.cssText='position:absolute;top:6px;left:6px;background:#7a4a00;color:#fff;font-size:12px;padding:2px 6px;border-radius:10px;font-weight:700;cursor:pointer';let url='https://'+srv+'.dwar.ru/artifact_info.php?artifact_id='+d.id;copy.onclick=e=>{e.stopPropagation();navigator.clipboard.writeText(url);copy.textContent='✓';setTimeout(()=>copy.textContent='⧉',800)};let lnk=document.createElement('a');lnk.href=url;lnk.target='_blank';lnk.style.cssText='color:black;text-decoration:none;display:flex;align-items:center;gap:10px;width:100%';let i=document.createElement('img');i.src='https://'+srv+'.dwar.ru'+d.picture.replace(/\\/g,'');i.style.cssText='width:80px;flex-shrink:0';let s=document.createElement('span');s.textContent=d.title;s.style.cssText='font-weight:600;line-height:1.2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden';let p=document.createElement('div');p.className='artifact-tooltip';p.style.cssText='position:fixed;padding:10px;box-shadow:0 2px 5px rgba(0,0,0,.3);display:none;z-index:9999;width:300px;border-radius:4px;background:transparent';lnk.addEventListener('mousemove',e=>{let x=e.clientX+10,y=e.clientY+10;if(x+300>innerWidth)x=e.clientX-320;p.style.left=x+'px';p.style.top=y+'px'});lnk.addEventListener('mouseenter',async()=>{h();t=p;p.innerHTML=await f(lnk.href);p.style.display='block'});lnk.addEventListener('mouseleave',e=>{if(!p.contains(e.relatedTarget))p.style.display='none'});lnk.append(i,s);k.append(lvl,copy,lnk,p);w.appendChild(k)});document.body.prepend(w)})();</script>
+
+
+<script>
+function initCode(){
+    const code=document.getElementById('bookmarklet-code').textContent.trim();
+    const oldCode=document.getElementById('old-code').textContent.trim();
+
+    document.getElementById('code1').value=code;
+    document.getElementById('code2').value=code;
+    document.getElementById('codeOld').value=oldCode;
+}
+
+async function copyCode(id,button){
+    const textarea=document.getElementById(id);
+    const text=textarea.value;
+
+    try{
+        await navigator.clipboard.writeText(text);
+    }catch(error){
+        textarea.focus();
+        textarea.select();
+        document.execCommand('copy');
+        textarea.setSelectionRange(0,0);
+    }
+
+    const oldText=button.textContent;
+    button.textContent='✓ Скопировано';
+    button.classList.add('success');
+
+    setTimeout(()=>{
+        button.textContent=oldText;
+        button.classList.remove('success');
+    },1200);
+}
+
+initCode();
+</script>
+ <div id="site-menu-button">
+    <a href="https://dartrongus.github.io/dwar/menu"
+       aria-label="Меню"
+       title="Меню">
+        <span class="site-menu-icon">☰</span>
+        <span class="site-menu-text">Меню</span>
+    </a>
+</div>
+
+<style>
+#site-menu-button {
+    position: fixed;
+    left: 18px;
+    bottom: 18px;
+    z-index: 2147483647;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+#site-menu-button a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 42px;
+    padding: 0 14px;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 11px;
+    background: rgba(14,17,23,0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #dfe3e8;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 6px 22px rgba(0,0,0,0.35);
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+#site-menu-button a:hover {
+    background: rgba(25,30,39,0.95);
+    border-color: rgba(255,255,255,0.22);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+#site-menu-button .site-menu-icon {
+    font-size: 17px;
+    line-height: 1;
+}
+
+#site-menu-button .site-menu-text {
+    line-height: 1;
+}
+
+@media (max-width: 600px) {
+    #site-menu-button {
+        left: 12px;
+        bottom: 12px;
+    }
+
+    #site-menu-button a {
+        height: 40px;
+        padding: 0 12px;
+    }
+}
+</style>
+</body>
+</html>
