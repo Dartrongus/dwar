@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сравнение Ездовых Животных — Двар</title>
+    <style>
+        :root {
+            --bg-main: #0f0f12;
+            --bg-card: #18181c;
+            --bg-table-header: #24242b;
+            --border-color: #383845;
+            --accent-gold: #e6c670;
+            --accent-green: #5cd65c;
+            --accent-red: #ff5c5c;
+            --text-main: #d9d9e6;
+            --text-muted: #9e9eb3;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            margin: 0;
+            padding: 30px 15px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 35px;
+            font-size: 28px;
+            text-shadow: 0 0 10px rgba(230, 198, 112, 0.2);
+        }
+
+        .summary-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--accent-gold);
+            border-radius: 10px;
+            padding: 20px 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(230, 198, 112, 0.1);
+        }
+
+        .summary-card h3 {
+            margin-top: 0;
+            color: var(--accent-gold);
+            font-size: 18px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .summary-card ul {
+            margin: 10px 0 0 0;
+            padding-left: 20px;
+            color: var(--text-main);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .mount-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+            margin-bottom: 40px;
+        }
+
+        .mount-header {
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .mount-header h2 {
+            margin: 0 0 8px 0;
+            color: #ffffff;
+            font-size: 24px;
+        }
+
+        .section-title {
+            color: var(--accent-gold);
+            font-size: 18px;
+            margin: 25px 0 15px 0;
+            border-left: 4px solid var(--accent-gold);
+            padding-left: 12px;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: rgba(0,0,0,0.25);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+
+        th {
+            background-color: var(--bg-table-header);
+            color: var(--accent-gold);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 0.8px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .item-cell {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .item-icon {
+            width: 48px;
+            height: 48px;
+            border: 1px solid var(--accent-gold);
+            border-radius: 6px;
+            background-color: #000;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .artifact-link {
+            color: #66b3ff;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .artifact-link:hover {
+            color: #99ccff;
+            text-decoration: underline;
+        }
+
+        .desc-text {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .diff-box {
+            background-color: rgba(230, 198, 112, 0.08);
+            border: 1px dashed var(--accent-gold);
+            border-radius: 6px;
+            padding: 10px 12px;
+            font-size: 13px;
+            color: #fff;
+        }
+
+        .diff-plus {
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        .diff-neutral {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .badge-normal {
+            background-color: #1e293b;
+            color: #38bdf8;
+            border: 1px solid #0284c7;
+        }
+
+        .badge-upgraded {
+            background-color: #3b1e1e;
+            color: #f87171;
+            border: 1px solid #dc2626;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Сравнение Ездовых Животных</h1>
+
+    <!-- СВОДНЫЙ ВЫВОД -->
+    <div class="summary-card">
+        <h3>Сводная аналитика улучшения (1★)</h3>
+        <ul>
+            <li><b>Базовые параметры:</b> Улучшение до 1★ даёт всем амулетам +10% к скорости, +4 места в рюкзаке, х2 к HP ездового и +5% сопротивления урону (расход корма вырастает на +7).</li>
+            <li><b>Церрадор:</b> Прирост контроля над макс. HP цели и более частое/сильное поглощение входящего урона.</li>
+            <li><b>Альканора:</b> Отражение урона яда растёт на +5% и срабатывает чаще (каждые -3.85% HP вместо -4.17%), массовый урон от текущего HP растёт на +2% (до +100 ед. лимита по каждой цели).</li>
+            <li><b>Дзеруг:</b> Рост суммарного урона более чем в 2 раза (+390 ед.), регенерация HP выживаемости вырастает на 15%, усиливаются аура и срез вампиризма (+20%).</li>
+            <li><b>Золотой Громдраг:</b> Исцеление хозяина при входе в бой растёт на +6%, бафф урона «Абсолютный прилив сил» длится +2 хода (+1% к урону), похищение силы у чужих ездовых усиливается (+1%/существо, +1 ход, до 12 складываний), постоянный бафф урона «Мощь ящера» растёт на +1%, подавление вампиризма «Взор ящера» усиливается на +5%.</li>
+        </ul>
+    </div>
+
+    <!-- 1. ЦЕРРАДОР -->
+    <div class="mount-card">
+        <div class="mount-header">
+            <h2>Непобедимый Церрадор [16]</h2>
+            <div class="desc-text">Сравнение базовой версии и улучшенного варианта (1 звезда)</div>
+        </div>
+
+        <div class="section-title">1. Амулеты и параметры призыва</div>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 30%;">Обычный амулет</th>
+                    <th style="width: 30%;">Улучшенный амулет (1★)</th>
+                    <th style="width: 40%;">Разница в характеристиках</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span class="badge badge-normal">Базовый</span>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/51136_txera16_amul.gif
+                            " class="item-icon" alt="Амулет">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=7757" target="_blank" class="artifact-link">Амулет Непобедимого Церрадора</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 8px;">
+                            • Скорость: <b>+50%</b><br>
+                            • Доп. места: <b>+8 вещей</b><br>
+                            • Корм в бой: <b>35 порций</b>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="badge badge-upgraded">Улучшенный (1★)</span>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/amu_cer3_s1_04.gif
+                            " class="item-icon" alt="Амулет 1 зв">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=49374" target="_blank" class="artifact-link">Амулет Непобедимого Церрадора (1 зв)</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 8px;">
+                            • Скорость: <b>+60%</b><br>
+                            • Доп. места: <b>+12 вещей</b><br>
+                            • Корм в бой: <b>42 порции</b><br>
+                            • <b>x2 HP</b> животного и <b>+5% сопротивления</b> всему урону
+                        </div>
+                    </td>
+                    <td>
+                        <div class="diff-box">
+                            <span class="diff-plus">+10%</span> к скорости передвижения<br>
+                            <span class="diff-plus">+4</span> дополнительных места в рюкзаке<br>
+                            <span class="diff-plus">+100%</span> к уровню здоровья (x2 HP)<br>
+                            <span class="diff-plus">+5%</span> сопротивления всему урону<br>
+                            <span style="color: var(--accent-red);">+7</span> порций корма за бой
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="section-title">2. Сравнение способностей</div>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 15%;">Слот</th>
+                    <th style="width: 30%;">Обычное животное</th>
+                    <th style="width: 30%;">Улучшенное животное (1★)</th>
+                    <th style="width: 25%;">Разница</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Способность 1</b></td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/002standardsorcery.gif
+                            " class="item-icon" alt="Очищение">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=4518" target="_blank" class="artifact-link">Очищение Церрадора</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            Снимает с животного большинство отравляющих эффектов.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/002standardsorcery.gif" class="item-icon" alt="Очищение">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=4518" target="_blank" class="artifact-link">Очищение Церрадора</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            Снимает с животного большинство отравляющих эффектов.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="diff-box">
+                            <span class="diff-neutral">Без изменений</span> (способность идентична)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Способность 2</b></td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/51575_cerra1.gif" class="item-icon" alt="Подавляющий луч">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=7788" target="_blank" class="artifact-link">Подавляющий луч</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            В бою уменьшает максимальный уровень жизни противника на <b>42%</b>.<br>
+                            Шанс срабатывания: <b>10%</b>.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/51575_cerra1.gif" class="item-icon" alt="Подавляющий луч 1 зв">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=49377" target="_blank" class="artifact-link">Подавляющий луч (1 зв)</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            В бою уменьшает максимальный уровень жизни противника на <b>48%</b>.<br>
+                            Шанс срабатывания: <b>15%</b>.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="diff-box">
+                            <span class="diff-plus">+6%</span> к срезу макс. HP врага<br>
+                            <span class="diff-plus">+5%</span> к шансу срабатывания
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Способность 3</b></td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/51575_cerra2.gif" class="item-icon" alt="Марево">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=7789" target="_blank" class="artifact-link">Марево Непобедимого Церрадора</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            Подавляет дух противника, снижая его физический или магический урон на <b>60%</b>.<br>
+                            Срабатывает за каждые потерянные <b>4.35%</b> HP.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/51575_cerra2.gif" class="item-icon" alt="Марево 1 зв">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=49380" target="_blank" class="artifact-link">Марево Непобедимого Церрадора (1 зв)</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            Подавляет дух противника, снижая его физический или магический урон на <b>63%</b>.<br>
+                            Срабатывает за каждые потерянные <b>3.85%</b> HP.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="diff-box">
+                            <span class="diff-plus">+3%</span> к снижению урона врага<br>
+                            <span class="diff-plus">Чаще на 0.50% HP</span> (срабатывает каждые -3.85% HP)
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 2. КЛИНОЗУБАЯ АЛЬКАНОРА -->
+    <div class="mount-card">
+        <div class="mount-header">
+            <h2>Клинозубая Альканора [16]</h2>
+            <div class="desc-text">Сравнение базовой версии и улучшенного варианта (1 звезда)</div>
+        </div>
+
+        <div class="section-title">1. Амулеты и параметры призыва</div>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 30%;">Обычный амулет</th>
+                    <th style="width: 30%;">Улучшенный амулет (1★)</th>
+                    <th style="width: 40%;">Разница в характеристиках</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span class="badge badge-normal">Базовый</span>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/alkanoramul_16.gif" class="item-icon" alt="Амулет Альканоры">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=12158" target="_blank" class="artifact-link">Амулет Клинозубой Альканоры</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 8px;">
+                            • Скорость: <b>+50%</b><br>
+                            • Доп. места: <b>+8 вещей</b><br>
+                            • Корм в бой: <b>35 порций</b>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="badge badge-upgraded">Улучшенный (1★)</span>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/amu_alk3_s1_04.gif" class="item-icon" alt="Амулет Альканоры 1 зв">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=49383" target="_blank" class="artifact-link">Амулет Клинозубой Альканоры (1 зв)</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 8px;">
+                            • Скорость: <b>+60%</b><br>
+                            • Доп. места: <b>+12 вещей</b><br>
+                            • Корм в бой: <b>42 порции</b><br>
+                            • <b>x2 HP</b> животного и <b>+5% сопротивления</b> всему урону
+                        </div>
+                    </td>
+                    <td>
+                        <div class="diff-box">
+                            <span class="diff-plus">+10%</span> к скорости передвижения<br>
+                            <span class="diff-plus">+4</span> дополнительных места в рюкзаке<br>
+                            <span class="diff-plus">+100%</span> к уровню здоровья (x2 HP)<br>
+                            <span class="diff-plus">+5%</span> сопротивления всему урону<br>
+                            <span style="color: var(--accent-red);">+7</span> порций корма за бой
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="section-title">2. Сравнение способностей</div>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 15%;">Слот</th>
+                    <th style="width: 30%;">Обычное животное</th>
+                    <th style="width: 30%;">Улучшенное животное (1★)</th>
+                    <th style="width: 25%;">Разница</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Способность 1</b></td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/baf1_alkanora_3.gif" class="item-icon" alt="Ядовитое жало">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=12163" target="_blank" class="artifact-link">Ядовитое жало Альканоры</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            Яд отравляет противника. Следующий удар, нанесённый им, отразит на него <b>60%</b> урона.<br>
+                            Частота срабатывания: каждые потерянные <b>4.17%</b> от макс. HP Альканоры.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/baf1_alkanora_3.gif" class="item-icon" alt="Ядовитое жало 1 зв">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=49386" target="_blank" class="artifact-link">Ядовитое жало Альканоры (1 зв)</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            Яд отравляет противника. Следующий удар, нанесённый им, отразит на него <b>65%</b> урона.<br>
+                            Частота срабатывания: каждые потерянные <b>3.85%</b> от макс. HP Альканоры.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="diff-box">
+                            <span class="diff-plus">+5%</span> к отражению урона врага<br>
+                            <span class="diff-plus">Чаще на 0.32% HP</span> (срабатывает каждые -3.85% HP)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Способность 2</b></td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/baf3_alkanora_3.gif" class="item-icon" alt="Магический удар">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=12177" target="_blank" class="artifact-link">Тень Клинозубой Альканоры</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            Наносит удар по <b>5 противникам</b>, причиняя каждому <b>23%</b> урона от текущего HP (не более <b>700 ед.</b>), и исцеляет до <b>5 союзников</b> за счёт нанесённого урона.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/baf3_alkanora_3.gif" class="item-icon" alt="Магический удар 1 зв">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=49389" target="_blank" class="artifact-link">Тень Клинозубой Альканоры (1 зв)</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            Наносит удар по <b>5 противникам</b>, причиняя каждому <b>25%</b> урона от текущего HP (не более <b>800 ед.</b>), и исцеляет до <b>5 союзников</b> за счёт нанесённого урона.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="diff-box">
+                            <span class="diff-plus">+2%</span> к урону от текущего HP<br>
+                            <span class="diff-plus">+100 ед.</span> к лимиту урона по каждой цели
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Способность 3</b></td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/baf2_alkanora_3.gif" class="item-icon" alt="Очищение Альканоры">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=12275" target="_blank" class="artifact-link">Очищение Альканоры</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            Освобождает себя от большинства негативных эффектов.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/baf2_alkanora_3.gif" class="item-icon" alt="Очищение Альканоры">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=12275" target="_blank" class="artifact-link">Очищение Альканоры</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            Освобождает себя от большинства негативных эффектов.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="diff-box">
+                            <span class="diff-neutral">Без изменений</span> (способность идентична)
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 3. КУРГАННЫЙ ДЗЕРУГ -->
+    <div class="mount-card">
+        <div class="mount-header">
+            <h2>Курганный Дзеруг [16]</h2>
+            <div class="desc-text">Сравнение базовой версии и улучшенного варианта (1 звезда)</div>
+        </div>
+
+        <div class="section-title">1. Амулеты и параметры призыва</div>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 30%;">Обычный амулет</th>
+                    <th style="width: 30%;">Улучшенный амулет (1★)</th>
+                    <th style="width: 40%;">Разница в характеристиках</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span class="badge badge-normal">Базовый</span>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/amul_dzer_3.gif" class="item-icon" alt="Амулет Дзеруга">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=21861" target="_blank" class="artifact-link">Амулет Курганного Дзеруга</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 8px;">
+                            • Скорость: <b>+50%</b><br>
+                            • Доп. места: <b>+8 вещей</b><br>
+                            • Корм в бой: <b>35 порций</b>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="badge badge-upgraded">Улучшенный (1★)</span>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/amu_dzer3_s1_04.gif" class="item-icon" alt="Амулет Дзеруга 1 зв">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=49392" target="_blank" class="artifact-link">Амулет Курганного Дзеруга (1 зв)</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 8px;">
+                            • Скорость: <b>+60%</b><br>
+                            • Доп. места: <b>+12 вещей</b><br>
+                            • Корм в бой: <b>42 порции</b><br>
+                            • <b>x2 HP</b> животного и <b>+5% сопротивления</b> всему урону
+                        </div>
+                    </td>
+                    <td>
+                        <div class="diff-box">
+                            <span class="diff-plus">+10%</span> к скорости передвижения<br>
+                            <span class="diff-plus">+4</span> дополнительных места в рюкзаке<br>
+                            <span class="diff-plus">+100%</span> к уровню здоровья (x2 HP)<br>
+                            <span class="diff-plus">+5%</span> сопротивления всему урону<br>
+                            <span style="color: var(--accent-red);">+7</span> порций корма за бой
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="section-title">2. Сравнение способностей</div>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 15%;">Слот</th>
+                    <th style="width: 30%;">Обычное животное</th>
+                    <th style="width: 30%;">Улучшенное животное (1★)</th>
+                    <th style="width: 25%;">Разница</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Способность 1</b></td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/pechatsmerti_2510.gif" class="item-icon" alt="Дыхание могилы">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=19699" target="_blank" class="artifact-link">Дыхание могилы</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            <b>160 ед.</b> прямого урона + <b>200 ед.</b> ядом за 2 хода (по 100 ед./ход). Всего: <b>360 ед.</b>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/pechatsmerti_2510.gif" class="item-icon" alt="Дыхание могилы 1 зв">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=49396" target="_blank" class="artifact-link">Дыхание могилы (1 зв)</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            <b>300 ед.</b> прямого урона + <b>450 ед.</b> ядом за 3 хода (по 150 ед./ход). Всего: <b>750 ед.</b>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="diff-box">
+                            <span class="diff-plus">+140 ед.</span> прямого урона<br>
+                            <span class="diff-plus">+50 ед./ход</span> яда (+1 ход длительности)<br>
+                            <span class="diff-plus">+390 ед.</span> суммарного урона
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Способность 2</b></td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/001standardheal.gif" class="item-icon" alt="Обновление костей">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=19716" target="_blank" class="artifact-link">Обновление костей</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            Восстанавливает <b>30%</b>  жизни в течение 3 ходов.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/001standardheal.gif" class="item-icon" alt="Обновление костей 1 зв">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=49397" target="_blank" class="artifact-link">Полное восстановление костей (1 зв)</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            При падении HP ниже <b>20%</b> восстанавливает <b>100% здоровья</b>. Применяется 1 раз за бой.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="diff-box">
+                            <span class="diff-plus">+</span> к восстановлению здоровья
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Способность 3</b></td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/lingraoncbaff.gif" class="item-icon" alt="Зов смерти">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=19731" target="_blank" class="artifact-link">Зов смерти</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            Ослабляет следующий удар до <b>5</b> противников, снижая наносимый ими урон на <b>30%</b>.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/lingraoncbaff.gif" class="item-icon" alt="Зов смерти 1 зв">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=49398" target="_blank" class="artifact-link">Зов смерти (1 зв)</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            Ослабляет следующий удар до <b>6</b> противников, снижая наносимый ими урон на <b>33%</b>.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="diff-box">
+                            <span class="diff-plus">+3%</span> к снижению урона врага<br>
+                            <span class="diff-plus">+1 цель</span> (до 6 противников)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Способность 4</b></td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/dzerug_fear_mark.gif" class="item-icon" alt="Клеймо страха">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=30490" target="_blank" class="artifact-link">Клеймо страха</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            Дзеруг наводит ужас на противника, снижая эффективность лечения всеми видами вампиризма на <b>40%</b>.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/dzerug_fear_mark.gif" class="item-icon" alt="Клеймо страха 1 зв">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=49393" target="_blank" class="artifact-link">Клеймо страха (1 зв)</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            Дзеруг наводит ужас на противника, снижая эффективность лечения всеми видами вампиризма на <b>45%</b>.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="diff-box">
+                            <span class="diff-plus">+5%</span> к подавлению вампиризма у врага
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Способность 5</b></td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/753_gnev_mass2.gif" class="item-icon" alt="Замешательство">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=30531" target="_blank" class="artifact-link">Замешательство</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            Освобождает Дзеруга от большинства негативных эффектов и заклятий.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/753_gnev_mass2.gif" class="item-icon" alt="Замешательство">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=30531" target="_blank" class="artifact-link">Замешательство</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            Освобождает Дзеруга от большинства негативных эффектов и заклятий.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="diff-box">
+                            <span class="diff-neutral">Без изменений</span> (способность идентична)
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 4. ЗОЛОТОЙ ГРОМДРАГ -->
+    <div class="mount-card">
+        <div class="mount-header">
+            <h2>Золотой Громдраг [16]</h2>
+            <div class="desc-text">Сравнение базовой версии и улучшенного варианта (1 звезда)</div>
+        </div>
+
+        <div class="section-title">1. Амулеты и параметры призыва</div>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 30%;">Обычный амулет</th>
+                    <th style="width: 30%;">Улучшенный амулет (1★)</th>
+                    <th style="width: 40%;">Разница в характеристиках</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span class="badge badge-normal">Базовый</span>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/amul_mount_drago_03.gif" class="item-icon" alt="Амулет Громдрага">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=30328" target="_blank" class="artifact-link">Амулет Золотого Громдрага</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 8px;">
+                            • Скорость: <b>+50%</b><br>
+                            • Доп. места: <b>+8 вещей</b><br>
+                            • Корм в бой: <b>35 порций</b>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="badge badge-upgraded">Улучшенный (1★)</span>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/amu_grom3_s1_04.gif" class="item-icon" alt="Амулет Громдрага 1 зв">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=49401" target="_blank" class="artifact-link">Амулет Золотого Громдрага (1 зв)</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 8px;">
+                            • Скорость: <b>+60%</b><br>
+                            • Доп. места: <b>+12 вещей</b><br>
+                            • Корм в бой: <b>42 порции</b><br>
+                            • <b>x2 HP</b> животного и <b>+5% сопротивления</b> всему урону
+                        </div>
+                    </td>
+                    <td>
+                        <div class="diff-box">
+                            <span class="diff-plus">+10%</span> к скорости передвижения<br>
+                            <span class="diff-plus">+4</span> дополнительных места в рюкзаке<br>
+                            <span class="diff-plus">+100%</span> к уровню здоровья (x2 HP)<br>
+                            <span class="diff-plus">+5%</span> сопротивления всему урону<br>
+                            <span style="color: var(--accent-red);">+7</span> порций корма за бой
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="section-title">2. Сравнение способностей</div>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 15%;">Слот</th>
+                    <th style="width: 30%;">Обычное животное</th>
+                    <th style="width: 30%;">Улучшенное животное (1★)</th>
+                    <th style="width: 25%;">Разница</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Способность 1</b></td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/20080105_voda3.gif" class="item-icon" alt="Готовность защищать">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=30276" target="_blank" class="artifact-link">Готовность защищать</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            При оглушении хозяина в бою ящер защищает его.: <b>5 защиты</b> за бой.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/20080105_voda3.gif" class="item-icon" alt="Готовность защищать">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=30276" target="_blank" class="artifact-link">Готовность защищать</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            При оглушении хозяина в бою ящер защищает его.: <b>6 защит</b> за бой.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="diff-box">
+                            <span class="diff-plus">+1 защита</span> за бой (5→6)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Способность 2</b></td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/castle_zombie_smmn.gif" class="item-icon" alt="Ненависть Громдрага">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=30283" target="_blank" class="artifact-link">Ненависть Громдрага</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            Отнимает <b>10%</b> оставшегося HP врага каждые 3 сек. Враг может избавиться, нанеся удар. Чем дольше враг не бьёт, тем выше шанс срабатывания.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/castle_zombie_smmn.gif" class="item-icon" alt="Ненависть Громдрага">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=30283" target="_blank" class="artifact-link">Ненависть Громдрага</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            Отнимает <b>10%</b> оставшегося HP врага каждые 3 сек. Враг может избавиться, нанеся удар. Чем дольше враг не бьёт, тем выше шанс срабатывания.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="diff-box">
+                            <span class="diff-neutral">Без изменений</span> (используется единый артикул 30283)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Способность 3</b></td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/001standardheal.gif" class="item-icon" alt="Поддержка Громдрага">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=30322" target="_blank" class="artifact-link">Поддержка Золотого Громдрага</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            При входе в бой возвращает хозяину <b>46%</b> жизненной силы в течение 4 секунд.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/001standardheal.gif" class="item-icon" alt="Поддержка Громдрага 1 зв">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=49404" target="_blank" class="artifact-link">Поддержка Золотого Громдрага (1 зв)</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            При входе в бой возвращает хозяину <b>52%</b> жизненной силы в течение 4 секунд.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="diff-box">
+                            <span class="diff-plus">+6%</span> к восстановлению HP хозяина при входе в бой
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Способность 4</b></td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/gromdrag_temp_boost.gif" class="item-icon" alt="Прилив сил">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=30323" target="_blank" class="artifact-link">Абсолютный прилив сил</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            При входе в бой передаёт хозяину часть силы, увеличивая физический и магический урон на <b>35%</b> в течение <b>10 ходов</b>.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/gromdrag_temp_boost.gif" class="item-icon" alt="Прилив сил 1 зв">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=49407" target="_blank" class="artifact-link">Абсолютный прилив сил (1 зв)</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            При входе в бой передаёт хозяину часть силы, увеличивая физический и магический урон на <b>36%</b> в течение <b>12 ходов</b>.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="diff-box">
+                            <span class="diff-plus">+1%</span> к урону хозяина<br>
+                            <span class="diff-plus">+2 хода</span> длительности баффа
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Способность 5</b></td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/shayssar_yarost.gif" class="item-icon" alt="Похищение силы">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=30324" target="_blank" class="artifact-link">Абсолютное похищение силы</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            Сжигает всех ездовых противника не старше себя уровнем. Передаёт хозяину <b>+10%</b> физ. и маг. урона за каждое существо на <b>3 хода</b>, но не более <b>100%</b> суммарно.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/shayssar_yarost.gif" class="item-icon" alt="Похищение силы 1 зв">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=49413" target="_blank" class="artifact-link">Абсолютное похищение силы (1 зв)</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            Сжигает всех ездовых противника не старше себя уровнем. Передаёт хозяину <b>+11%</b> физ. и маг. урона за каждое существо на <b>4 хода</b>. Складывается до <b>12 раз</b>.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="diff-box">
+                            <span class="diff-plus">+1%</span> к урону<br>
+                            <span class="diff-plus">+1 ход</span> длительности<br>
+                            <span class="diff-plus">До 12 складываний</span> (вместо 10)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Способность 6</b></td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/gromdrag_perm_boost.gif" class="item-icon" alt="Мощь ящера">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=30325" target="_blank" class="artifact-link">Мощь Золотого ящера</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            Жертвует хозяину часть своей мощи, усиливая его физический и магический урон на <b>15%</b> до конца боя.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/gromdrag_perm_boost.gif" class="item-icon" alt="Мощь ящера 1 зв">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=49410" target="_blank" class="artifact-link">Мощь Золотого ящера (1 зв)</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            Жертвует хозяину часть своей мощи, усиливая его физический и магический урон на <b>16%</b> до конца боя.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="diff-box">
+                            <span class="diff-plus">+1%</span> к физ. и маг. урону хозяина до конца боя
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Способность 7</b></td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/gromdrag_eye.gif" class="item-icon" alt="Взор ящера">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=30334" target="_blank" class="artifact-link">Взор ящера</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            Тяжёлый взор подавляет противника, снижая эффективность лечения всеми видами вампиризма на <b>50%</b>.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/gromdrag_eye.gif" class="item-icon" alt="Взор ящера 1 зв">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=49414" target="_blank" class="artifact-link">Взор ящера (1 зв)</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            Тяжёлый взор подавляет противника, снижая эффективность лечения всеми видами вампиризма на <b>55%</b>.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="diff-box">
+                            <span class="diff-plus">+5%</span> к подавлению вампиризма у врага
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Способность 8</b></td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/sleeping_warrior_buff.gif" class="item-icon" alt="Подавление магии">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=30345" target="_blank" class="artifact-link">Громовой шорох</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            	
+Громдраг почти непобедим.
+Однако его чешуя более уязвима к отравлениям и другим эффектам длительного урона – они действуют на ящера с удвоенной силой.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="item-cell">
+                            <img src="https://w1.dwar.ru/images/data/artifacts/sleeping_warrior_buff.gif" class="item-icon" alt="Подавление магии">
+                            <div>
+                                <a href="https://w1.dwar.ru/artifact_info.php?artikul_id=30345" target="_blank" class="artifact-link">Громовой шорох</a>
+                            </div>
+                        </div>
+                        <div class="desc-text" style="margin-top: 6px;">
+                            	
+Громдраг почти непобедим.
+Однако его чешуя более уязвима к отравлениям и другим эффектам длительного урона – они действуют на ящера с удвоенной силой.
+                        </div>
+                    </td>
+                    <td>
+                        <div class="diff-box">
+                            <span class="diff-neutral">Без изменений</span> (способность идентична)
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
