@@ -11,7 +11,7 @@
 
 Информация и цены на предметы Бриллиантовой Ярмарки.
 
-👉 **[Открыть проект](https://dartrongus.github.io/dwar/diamond-fair)**
+👉 **[Открыть ](https://dartrongus.github.io/dwar/diamond-fair)**
 
 ---
 
@@ -27,7 +27,7 @@
 
 Сравнение способностей обычного и улучшенного ездового животного.
 
-👉 **[Открыть проект](https://dartrongus.github.io/dwar/ezda)**
+👉 **[Открыть статью](https://dartrongus.github.io/dwar/ezda)**
 
 ---
 
@@ -37,7 +37,7 @@
 
 > Работает только с открытыми персонажами.
 
-👉 **[Открыть проект](https://dartrongus.github.io/dwar/shmot)**
+👉 **[Открыть статью](https://dartrongus.github.io/dwar/shmot)**
 
 ---
 
@@ -52,7 +52,7 @@
 * 🌑 просмотр тени персонажа;
 * ⚡ быстрый доступ к дополнительной информации.
 
-👉 **[Открыть репозиторий на GitHub](https://github.com/Dartrongus/DwarTools)**
+👉 **[Узнать подробнее и скачать](https://github.com/Dartrongus/DwarTools)**
 
 ---
 
