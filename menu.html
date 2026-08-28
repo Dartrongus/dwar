@@ -4,104 +4,282 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Меню</title>
+<title>Проекты</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-    --bg: #0b0e13;
-    --card: #151a21;
-    --card-hover: #1b212a;
-    --border: #252c35;
-    --text: #e8ebef;
-    --accent: #4f8cff;
+    --bg: #f3f6fa;
+    --card: #ffffff;
+    --card-hover: #f9fbfd;
+    --border: #e2e8f0;
+
+    --text: #1e293b;
+    --muted: #64748b;
+
+    --accent: #4f7cff;
+    --accent-light: #edf2ff;
+
+    --shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+    --shadow-hover: 0 8px 24px rgba(15, 23, 42, 0.10);
 }
 
 * {
     box-sizing: border-box;
 }
 
+html {
+    min-height: 100%;
+}
+
 body {
     margin: 0;
     min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at top,
+            #ffffff 0%,
+            var(--bg) 55%
+        );
+
+    color: var(--text);
+
+    font-family: 'Inter', sans-serif;
 
     display: flex;
     justify-content: center;
     align-items: flex-start;
 
-    background: var(--bg);
-    color: var(--text);
-
-    font-family: 'Inter', sans-serif;
+    padding: 60px 16px;
 }
+
+.container {
+    width: min(680px, 100%);
+}
+
+/* =========================
+   Заголовок
+========================= */
+
+.header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.header h1 {
+    margin: 0;
+
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.header p {
+    margin: 8px 0 0;
+
+    color: var(--muted);
+
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* =========================
+   Список ссылок
+========================= */
 
 .links {
-    width: min(600px, calc(100% - 32px));
-    margin-top: 80px;
-
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
 }
 
+/* =========================
+   Карточка
+========================= */
+
 .link {
+    position: relative;
+
     display: flex;
     align-items: center;
 
-    min-height: 58px;
-    padding: 0 20px;
+    width: 100%;
+    min-height: 76px;
+
+    padding: 14px 54px 14px 20px;
 
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 14px;
 
     background: var(--card);
 
     color: var(--text);
     text-decoration: none;
 
-    font-size: 15px;
-    font-weight: 500;
+    box-shadow: var(--shadow);
 
     transition:
-        background .2s ease,
-        border-color .2s ease,
-        transform .2s ease;
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease,
+        background 0.2s ease;
 }
 
 .link:hover {
     background: var(--card-hover);
-    border-color: #37414e;
-    transform: translateY(-1px);
+
+    border-color: #cbd5e1;
+
+    transform: translateY(-2px);
+
+    box-shadow: var(--shadow-hover);
 }
+
+/* =========================
+   Текст
+========================= */
+
+.link-content {
+    min-width: 0;
+    width: 100%;
+}
+
+.title {
+    display: block;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    line-height: 1.4;
+
+    overflow-wrap: anywhere;
+}
+
+.description {
+    display: block;
+
+    margin-top: 4px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+    font-weight: 400;
+
+    line-height: 1.45;
+
+    overflow-wrap: anywhere;
+}
+
+/* =========================
+   Стрелка
+========================= */
 
 .link::after {
     content: "→";
 
-    margin-left: auto;
+    position: absolute;
 
-    color: #687384;
-    font-size: 18px;
+    right: 18px;
+    top: 50%;
+
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transform: translateY(-50%);
+
+    border-radius: 50%;
+
+    background: var(--accent-light);
+
+    color: var(--accent);
+
+    font-size: 17px;
 
     transition:
-        color .2s ease,
-        transform .2s ease;
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
 }
 
 .link:hover::after {
-    color: var(--accent);
-    transform: translateX(3px);
+    background: var(--accent);
+    color: white;
+
+    transform:
+        translateY(-50%)
+        translateX(2px);
 }
+
+/* =========================
+   GitHub ссылка
+========================= */
+
+.github .title::before {
+    content: "GitHub";
+
+    display: inline-block;
+
+    margin-right: 7px;
+    padding: 2px 6px;
+
+    border-radius: 5px;
+
+    background: #eef2f7;
+
+    color: #475569;
+
+    font-size: 9px;
+    font-weight: 600;
+
+    vertical-align: 2px;
+}
+
+/* =========================
+   Мобильная версия
+========================= */
 
 @media (max-width: 600px) {
 
-    .links {
-        margin-top: 40px;
+    body {
+        padding: 35px 12px;
+    }
+
+    .header {
+        margin-bottom: 20px;
+    }
+
+    .header h1 {
+        font-size: 23px;
     }
 
     .link {
-        min-height: 54px;
-        padding: 0 16px;
+        min-height: 70px;
+
+        padding:
+            13px
+            50px
+            13px
+            16px;
+
+        border-radius: 12px;
+    }
+
+    .title {
+        font-size: 14px;
+    }
+
+    .description {
+        font-size: 11.5px;
+    }
+
+    .link::after {
+        right: 14px;
     }
 }
 </style>
@@ -109,51 +287,126 @@ body {
 
 <body>
 
-<div class="links">
+<div class="container">
 
-    <a class="link"
-       href="https://dartrongus.github.io/dwar/diamond-fair"
-       target="_blank"
-       rel="noopener">
-        Бриллиантовая Ярмарка(цены)
-    </a>
+    <div class="header">
+        <h1>...</h1>
+        <p>Полезные инструменты и проекты для Dwar</p>
+    </div>
 
-    <a class="link"
-       href="https://dartrongus.github.io/dwar/arcat-calc"
-       target="_blank"
-       rel="noopener">
-        Калькулятор аркатов
-    </a>
+    <div class="links">
 
-    <a class="link"
-       href="https://dartrongus.github.io/dwar/ezda"
-       target="_blank"
-       rel="noopener">
-        Сравнение новой езды
-    </a>
+        <a class="link"
+           href="https://dartrongus.github.io/dwar/diamond-fair"
+           target="_blank"
+           rel="noopener">
 
-    <a class="link"
-       href="https://dartrongus.github.io/dwar/shmot"
-       target="_blank"
-       rel="noopener">
-        Просмотр шмоток под вещами стиля<i>(только у открытых персонажей)</i>
-    </a> 
-    
-    <a class="link"
-       href="https://github.com/Dartrongus/DwarTools"
-       target="_blank"
-       rel="noopener">
-        Программа DwarTools для Dwarium <i>(удобный просмотр вещей открытых персонажей, возможность открыть эффекты и тень персонажа одной кнопкой)</i>
-    </a>
+            <div class="link-content">
+                <span class="title">
+                    Бриллиантовая Ярмарка
+                </span>
 
-     <a class="link"
-       href="https://dartrongus.github.io/dwar/menu"
-       target="_blank"
-       rel="noopener">
-        Другой проект
-    </a>
+                <span class="description">
+                    Цены и информация о предметах
+                </span>
+            </div>
+
+        </a>
+
+
+        <a class="link"
+           href="https://dartrongus.github.io/dwar/arcat-calc"
+           target="_blank"
+           rel="noopener">
+
+            <div class="link-content">
+                <span class="title">
+                    Калькулятор аркатов
+                </span>
+
+                <span class="description">
+                    Расчёт и сравнение аркатов
+                </span>
+            </div>
+
+        </a>
+
+
+        <a class="link"
+           href="https://dartrongus.github.io/dwar/ezda"
+           target="_blank"
+           rel="noopener">
+
+            <div class="link-content">
+                <span class="title">
+                    Сравнение новой езды
+                </span>
+
+                <span class="description">
+                    Сравнение способностей обычного и улучшенного ездового животного
+                </span>
+            </div>
+
+        </a>
+
+
+        <a class="link"
+           href="https://dartrongus.github.io/dwar/shmot"
+           target="_blank"
+           rel="noopener">
+
+            <div class="link-content">
+                <span class="title">
+                    Просмотр шмоток под вещами стиля
+                </span>
+
+                <span class="description">
+                    Просмотр экипировки открытых персонажей
+                </span>
+            </div>
+
+        </a>
+
+
+        <a class="link github"
+           href="https://github.com/Dartrongus/DwarTools"
+           target="_blank"
+           rel="noopener">
+
+            <div class="link-content">
+                <span class="title">
+                    DwarTools для Dwarium
+                </span>
+
+                <span class="description">
+                    Удобный просмотр вещей открытых персонажей, эффектов и тени персонажа
+                </span>
+            </div>
+
+        </a>
+
+
+        <a class="link"
+           href="https://dartrongus.github.io/dwar/menu"
+           target="_blank"
+           rel="noopener">
+
+            <div class="link-content">
+                <span class="title">
+                    Другой проект
+                </span>
+
+                <span class="description">
+                    Дополнительный проект
+                </span>
+            </div>
+
+        </a>
+
+    </div>
 
 </div>
 
 </body>
 </html>
+
