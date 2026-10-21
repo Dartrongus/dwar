@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Небесные Усиления — Легенда: Наследие Драконов</title>
+  <style>
+    :root {
+      --bg-dark: #12151b;
+      --card-bg: #1c222c;
+      --card-border: #323d4f;
+      --gold: #f0c05a;
+      --gold-hover: #ffd700;
+      --text: #e0e6ed;
+      --text-muted: #8c9ba5;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 30px 15px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 8px;
+      text-shadow: 0 0 15px rgba(240, 192, 90, 0.3);
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    /* Секция текущего месяца */
+    .current-section {
+      background: linear-gradient(145deg, #251e13, #1a2330);
+      border: 2px solid var(--gold);
+      border-radius: 14px;
+      padding: 25px;
+      margin-bottom: 50px;
+      box-shadow: 0 0 25px rgba(240, 192, 90, 0.2);
+    }
+
+    .current-title {
+      font-size: 1.4rem;
+      color: var(--gold);
+      margin-bottom: 20px;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .current-card {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .current-card img {
+      width: 160px;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 2px solid var(--gold);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    }
+
+    .current-info {
+      text-align: left;
+    }
+
+    .current-month-name {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
+
+    .current-boss-name {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 15px;
+    }
+
+    /* Кнопки ссылок */
+    .btn-link {
+      display: inline-block;
+      padding: 10px 22px;
+      background: #8b1818;
+      background: linear-gradient(180deg, #b82323 0%, #6d0f0f 100%);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 6px;
+      border: 1px solid #d44d4d;
+      transition: all 0.2s ease;
+    }
+
+    .btn-link:hover {
+      background: linear-gradient(180deg, #d32828 0%, #871313 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(184, 35, 35, 0.4);
+    }
+
+    /* Общий список месяцев */
+    .section-heading {
+      font-size: 1.6rem;
+      color: var(--gold);
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 10px;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    .months-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .month-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+      position: relative;
+    }
+
+    .month-card:hover {
+      transform: translateY(-4px);
+      border-color: #4a5c77;
+    }
+
+    .month-card.active-month {
+      border: 2px solid var(--gold);
+      background: #232936;
+    }
+
+    .active-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: var(--gold);
+      color: #111;
+      font-size: 0.75rem;
+      font-weight: bold;
+      padding: 2px 8px;
+      border-radius: 10px;
+      text-transform: uppercase;
+    }
+
+    .month-card .month-title {
+      font-size: 1.15rem;
+      color: var(--gold);
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .month-card .boss-name {
+      font-size: 1.05rem;
+      margin-bottom: 14px;
+      color: #fff;
+      font-weight: 500;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .month-card img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #414f66;
+      margin-bottom: 15px;
+      background: #111;
+    }
+
+    .month-card .btn-link {
+      margin-top: auto;
+      font-size: 0.85rem;
+      padding: 6px 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Небесные Усиления</h1>
+      <div class="subtitle">Календарь ротации боссов небесных усилений в игре</div>
+    </header>
+
+    <!-- Блок текущего месяца -->
+    <section class="current-section" id="currentMonthSection">
+      <div class="current-title">В этом месяце</div>
+      <div class="current-card" id="currentMonthCard">
+        <!-- Заполняется автоматически через JavaScript -->
+      </div>
+    </section>
+
+    <!-- Полный упорядоченный список месяцев -->
+    <h2 class="section-heading">Полный график на год</h2>
+    <div class="months-grid" id="monthsGrid">
+      <!-- Заполняется через JavaScript от Января до Декабря -->
+    </div>
+  </div>
+
+  <script>
+    // Массив данных, строго упорядоченный с января по декабрь (0 - Январь ... 11 - Декабрь)
+    const buffsData = [
+      {
+        monthIndex: 0,
+        monthName: "Январь",
+        name: "Умертвие Фазгрода",
+        artikulId: 3501,
+        url: "https://w1.dwar.ru/bot_info.php?artikul_id=3501",
+        image: "https://w1.dwar.ru/images/data/bots/umertvie_boss_big.jpg"
+      },
+      {
+        monthIndex: 1,
+        monthName: "Февраль",
+        name: "Эдера",
+        artikulId: 3504,
+        url: "https://w1.dwar.ru/bot_info.php?artikul_id=3504",
+        image: "https://w1.dwar.ru/images/data/bots/edera_boss.jpg"
+      },
+      {
+        monthIndex: 2,
+        monthName: "Март",
+        name: "Капитан Эгер Коготь",
+        artikulId: 3507,
+        url: "https://w1.dwar.ru/bot_info.php?artikul_id=3507",
+        image: "https://w1.dwar.ru/images/data/bots/mertvyj_glavarj_piratov.jpg"
+      },
+      {
+        monthIndex: 3,
+        monthName: "Апрель",
+        name: "Крэтс-мясник",
+        artikulId: 3426,
+        url: "https://w1.dwar.ru/bot_info.php?artikul_id=3426",
+        image: "https://w1.dwar.ru/images/data/bots/new_krats_3.jpg"
+      },
+      {
+        monthIndex: 4,
+        monthName: "Май",
+        name: "Богельф",
+        artikulId: 3429,
+        url: "https://w1.dwar.ru/bot_info.php?artikul_id=3429",
+        image: "https://w1.dwar.ru/images/data/bots/bolotnoechudo_big.jpg"
+      },
+      {
+        monthIndex: 5,
+        monthName: "Июнь",
+        name: "Гурральдий Корр",
+        artikulId: 3433,
+        url: "https://w1.dwar.ru/bot_info.php?artikul_id=3433",
+        image: "https://w1.dwar.ru/images/data/bots/octopus.jpg"
+      },
+      {
+        monthIndex: 6,
+        monthName: "Июль",
+        name: "Царь скорпионов",
+        artikulId: 3443,
+        url: "https://w1.dwar.ru/bot_info.php?artikul_id=3443",
+        image: "https://w1.dwar.ru/images/data/bots/skorpion-king.jpg"
+      },
+      {
+        monthIndex: 7,
+        monthName: "Август",
+        name: "Бальтазар",
+        artikulId: 3459,
+        url: "https://w1.dwar.ru/bot_info.php?artikul_id=3459",
+        image: "https://w1.dwar.ru/images/data/bots/Baltazar_080627.jpg"
+      },
+      {
+        monthIndex: 8,
+        monthName: "Сентябрь",
+        name: "Королева Андорвэн",
+        artikulId: 3491,
+        url: "https://w1.dwar.ru/bot_info.php?artikul_id=3491",
+        image: "https://w1.dwar.ru/images/data/bots/inst_elf_boss.jpg"
+      },
+      {
+        monthIndex: 9,
+        monthName: "Октябрь",
+        name: "Харцида",
+        artikulId: 3492,
+        url: "https://w1.dwar.ru/bot_info.php?artikul_id=3492",
+        image: "https://w1.dwar.ru/images/data/bots/boss_matka_zigred.jpg"
+      },
+      {
+        monthIndex: 10,
+        monthName: "Ноябрь",
+        name: "Паук-Патриарх",
+        artikulId: 3493,
+        url: "https://w1.dwar.ru/bot_info.php?artikul_id=3493",
+        image: "https://w1.dwar.ru/images/data/bots/spider4_big.jpg"
+      },
+      {
+        monthIndex: 11,
+        monthName: "Декабрь",
+        name: "Рождественская ель",
+        artikulId: 3496,
+        url: "https://w1.dwar.ru/bot_info.php?artikul_id=3496",
+        image: "https://w1.dwar.ru/images/data/bots/yolka_big.jpg"
+      }
+    ];
+
+    // Определение текущего месяца (0 = Январь, 11 = Декабрь)
+    const currentMonthIndex = new Date().getMonth();
+
+    // Заполнение верхнего блока текущего месяца
+    const currentBuff = buffsData.find(item => item.monthIndex === currentMonthIndex);
+    const currentContainer = document.getElementById("currentMonthCard");
+    
+    currentContainer.innerHTML = `
+      <img src="${currentBuff.image}" alt="${currentBuff.name}" onerror="this.src='https://w1.dwar.ru/images/data/bots/Baltazar_080627.jpg';">
+      <div class="current-info">
+        <div class="current-month-name">${currentBuff.monthName} (Сейчас)</div>
+        <div class="current-boss-name">${currentBuff.name}</div>
+        <a href="${currentBuff.url}" target="_blank" rel="noopener noreferrer" class="btn-link">
+          Информация о боте →
+        </a>
+      </div>
+    `;
+
+    // Заполнение общего списка месяцев (от Января к Декабрю)
+    const gridContainer = document.getElementById("monthsGrid");
+    
+    buffsData.forEach(item => {
+      const isCurrent = item.monthIndex === currentMonthIndex;
+      const card = document.createElement("div");
+      card.className = `month-card ${isCurrent ? 'active-month' : ''}`;
+      
+      card.innerHTML = `
+        ${isCurrent ? '<span class="active-badge">Сейчас</span>' : ''}
+        <div class="month-title">${item.monthName}</div>
+        <div class="boss-name">${item.name}</div>
+        <img src="${item.image}" alt="${item.name}" loading="lazy" onerror="this.src='https://w1.dwar.ru/images/data/bots/Baltazar_080627.jpg';">
+        <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="btn-link">
+          Смотреть инфо
+        </a>
+      `;
+      
+      gridContainer.appendChild(card);
+    });
+  </script>
+</body>
+</html>
