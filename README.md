@@ -70,7 +70,7 @@
 | ------------------------ | --------------------------------------------------------- |
 | 💎 Бриллиантовая Ярмарка | [Открыть](https://dartrongus.github.io/dwar/diamond-fair) |
 | 🧮 Калькулятор аркатов   | [Открыть](https://dartrongus.github.io/dwar/arcat-calc)   |
-| 🐎 Сравнение новой езды  | [Открыть](https://dartrongus.github.io/dwar/ezda)         |
+| 🐎 Календарь небесных усилений  | [Открыть](https://dartrongus.github.io/dwar/nebesnie-usileniya)         |
 | 👕 Просмотр экипировки   | [Открыть](https://dartrongus.github.io/dwar/shmot)        |
 | 🛠️ DwarTools            | [GitHub](https://github.com/Dartrongus/DwarTools)         |
 | 🔗 Другой проект         | [Открыть](https://dartrongus.github.io/dwar/menu)         |
